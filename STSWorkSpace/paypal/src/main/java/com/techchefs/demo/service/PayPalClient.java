@@ -23,8 +23,8 @@ import com.paypal.base.rest.PayPalRESTException;
 @Service
 public class PayPalClient{
 
-	String clientId = "AdK0Dipx1A89-4YcqImHi1bDfmsyHlRNLJ8oKtIPoYx2yerI4XIIqGmFkPUOh03tCQPwNO5MsgIasqGM";
-	String clientSecret = "EO0sXInbwl_fF_NFdnToXxmCahMN8zayMCMxAQZwxhDfkQfMlvcB1x27J-Sd3VLGJK7UtDByKT-MUEwN";
+	String clientId = "AQnVhKcVO1b7ulvZBVhuerSG5YPoOcHxnsxQkCU5iFWU2JtTiFmJM3grzpW_uUijRgJJpOVrbXD89EQi";
+	String clientSecret = "ELgXkjoML9glsUPPiOefKQXyLqcU3PWNSwmEvbqTuvIBC9oSeXIcTDrOQKl-2rpBuwqITDXKgWulMvtB";
 	
 public Map<String, Object> createPayment(String sum){
     Map<String, Object> response = new HashMap<String, Object>();
@@ -45,8 +45,8 @@ public Map<String, Object> createPayment(String sum){
     payment.setTransactions(transactions);
 
     RedirectUrls redirectUrls = new RedirectUrls();
-    redirectUrls.setCancelUrl("http://localhost:4200/cancel");
-    redirectUrls.setReturnUrl("http://localhost:4200/");
+    redirectUrls.setCancelUrl("http://localhost:3000/cancel");
+    redirectUrls.setReturnUrl("http://localhost:3000/ConfirmPayment");
     payment.setRedirectUrls(redirectUrls);
     Payment createdPayment;
     try {
