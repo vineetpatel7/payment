@@ -31,30 +31,36 @@ public Map<String, Object> createPayment(String sum){
     Amount amount = new Amount();
     amount.setCurrency("USD");
     amount.setTotal(sum);
+    System.out.println("Amount  "+amount);
     Transaction transaction = new Transaction();
     transaction.setAmount(amount);
+    System.out.println("transaction  "+transaction);
     List<Transaction> transactions = new ArrayList<Transaction>();
     transactions.add(transaction);
-
+    System.out.println("LIst Transcation : "+transactions);
     Payer payer = new Payer();
     payer.setPaymentMethod("paypal");
-
+    System.out.println("payer : "+payer);
     Payment payment = new Payment();
     payment.setIntent("sale");
     payment.setPayer(payer);
     payment.setTransactions(transactions);
-
+    System.out.println("payment : "+payment);
     RedirectUrls redirectUrls = new RedirectUrls();
     redirectUrls.setCancelUrl("http://localhost:3000/cancel");
     redirectUrls.setReturnUrl("http://localhost:3000/ConfirmPayment");
+    System.out.println("redirectUrls : "+redirectUrls);
     payment.setRedirectUrls(redirectUrls);
     Payment createdPayment;
     try {
         String redirectUrl = "";
         APIContext context = new APIContext(clientId, clientSecret, "sandbox");
+        System.out.println("context : "+context);
         createdPayment = payment.create(context);
+        
         if(createdPayment!=null){
             List<Links> links = createdPayment.getLinks();
+            System.out.println("links : "+links);
             for (Links link:links) {
                 if(link.getRel().equals("approval_url")){
                     redirectUrl = link.getHref();
@@ -67,11 +73,13 @@ public Map<String, Object> createPayment(String sum){
     } catch (PayPalRESTException e) {
         System.out.println("Error happened during payment creation!");
     }
+    System.out.println("response : "+response);
     return response;
 }
 
 public Map<String, Object> completePayment(String paymentId,String payerId){
-    Map<String, Object> response = new HashMap();
+    Map<String, Object> response = new HashMap<>();
+	
     Payment payment = new Payment(); 
     payment.setId(paymentId);
 
@@ -83,6 +91,7 @@ public Map<String, Object> completePayment(String paymentId,String payerId){
         if(createdPayment!=null){
             response.put("status", "success");
             response.put("payment", createdPayment.toString());
+           
         }
     } catch (PayPalRESTException e) {
         System.err.println(e.getDetails());
@@ -90,4 +99,3 @@ public Map<String, Object> completePayment(String paymentId,String payerId){
     return response;
 }
 }
-
